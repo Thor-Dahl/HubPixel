@@ -18,8 +18,15 @@
   1. Clone the repository
   2. Navigate into the project folder: cd HubPixel
   3. Install dependencies: npm install
-  5. Start the development server: npm run dev
-  7. Open the local URL shown in the terminal
+  4. Start the development server: npm run dev
+  5. Open the local URL shown in the terminal
+
+**Planned Features**
+  1. User authentication
+  2. Create and save inspiration boards
+  3. Follow artists
+  4. Color Palette Export
+  5. Post tag and tag filtering
 
 **Screenshots**
 <img width="1903" height="944" alt="image" src="https://github.com/user-attachments/assets/d4b3b99a-1c13-45bd-a275-b30111045639" />
