@@ -77,7 +77,7 @@ function Feed({currentView,
         </div>
         <div className="notification-inbox">
           <div className="notification-message">
-            <img src="icons/favourite-red.png" className="notification-message-icon"></img>
+            <img src="icons/favourite.png" className="notification-message-icon"></img>
             <div className="notification-text-content">
               <p>Somebody liked your post</p>
               <p className="post-dot-dark">·</p>
@@ -95,7 +95,7 @@ function Feed({currentView,
             <img src="images/castletower.png" className="notification-message-postimage"></img>
           </div>
           <div className="notification-message">
-            <img src="icons/favourite-red.png" className="notification-message-icon"></img>
+            <img src="icons/favourite.png" className="notification-message-icon"></img>
             <div className="notification-text-content">
               <p>Somebody liked your post</p>
               <p className="post-dot-dark">·</p>

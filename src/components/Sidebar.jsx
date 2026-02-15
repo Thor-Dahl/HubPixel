@@ -68,6 +68,11 @@ export default function Sidebar({ isPostEditOpen, onCloseEdit, userName, bioText
           <p id="inspoboard-count">38 elements</p>
         </div>
       </button>
+      
+      <div className="create-inspoboard-container">
+        <button className="create-inspoboard-button">+</button>
+      </div>
+      
     </div>
   );
 }
