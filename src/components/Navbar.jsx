@@ -1,4 +1,9 @@
-export default function Navbar({ onOpenPostComposer, onProfileClick, onHomeClick, onLikedClick, onNotificationsClick }) {
+export default function Navbar({ onOpenPostComposer, onProfileClick, onHomeClick, onLikedClick, onNotificationsClick, users, profileUserId }) {
+  const profileUser = users.find((user) => user.id === profileUserId) || {
+    name: "Guest",
+    userHandle: "@guest-1932",
+    profilePic: "images/default_pic.jpg"
+  };
   return (
     <div className="nav-container">
       <div className="nav-personal">
@@ -30,10 +35,10 @@ export default function Navbar({ onOpenPostComposer, onProfileClick, onHomeClick
         </button>
             </div>
       <div className="nav-profile">
-        <img src="images/train.png" id="nav-profile-pic" alt="User" />
+        <img src={profileUser.profilePic} id="nav-profile-pic" alt="User" />
         <div className="nav-profile-texts">
-          <p id="nav-profile-name">JurassicDino</p>
-          <p id="nav-profile-username">@jurassicdino</p>
+          <p id="nav-profile-name">{profileUser && profileUser.name}</p>
+          <p id="nav-profile-username">{profileUser && profileUser.userHandle}</p>
         </div>
       </div>
       <button className="nav-post-button" onClick={onOpenPostComposer}>Post</button>

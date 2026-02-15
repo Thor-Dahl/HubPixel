@@ -52,7 +52,7 @@ function App() {
     },
   ]
 
-  const users = [
+  const initialUsers = [
     {id: "user-1", name: "JurassicDino", profilePic: "images/train.png", userHandle: "@jurassicdino."},
     {id: "user-2", name: "ChieftainOfThePirates", profilePic: "images/chocmilk.png", userHandle: "@chieftainpirates"},
     {id: "user-3", name: "LiterallyPoopy", profilePic: "images/bust.png", userHandle: "@ltrlypoopy"},
@@ -73,7 +73,8 @@ function App() {
   ]
 
   // ==================================== STATES ====================================
-  const [currentUserId, setCurrentUserId] = useState("user-1");
+  const [currentUserId, setCurrentUserId] = useState(null);
+  const [users, setUsers] = useState(initialUsers);
   //Nav View states
   const [profileUserId, setProfileUserId] = useState(currentUserId);
   const [activeView, setActiveView] = useState('home');
@@ -111,15 +112,37 @@ function App() {
     setIsProfileEditOpen(false);
   };
   const showMyProfile = () => {
+      if (!currentUserId) {
+        openLogin();
+        return;
+     }
     setProfileUserId(currentUserId);
     setActiveView('profile');
   };
   const showUserProfile = (userId) => { setProfileUserId(userId); setActiveView('profile'); };
-  const showLike = () => { setActiveView('liked'); };
-  const showNotifications = () => setActiveView('notifications');
+  const showLike = () => { 
+    if (!currentUserId) {
+      openLogin();
+      return;
+    }
+    setActiveView('liked'); 
+  };
+  const showNotifications = () => {
+    if (!currentUserId) {
+      openLogin();
+      return;
+    }
+    setActiveView('notifications');
+  } 
   const openProfileEdit = () => { setIsProfileEditOpen(true);};
   const closeProfileEdit = () => { setIsProfileEditOpen(false);};
-  const openPostComposer = () => {setIsPostComposerOpen(true);};
+  const openPostComposer = () => {
+    if (!currentUserId) {
+    openLogin();
+    return;
+  }
+    setIsPostComposerOpen(true);
+  };
   const closePostComposer = () => {setIsPostComposerOpen(false);};
   const clearImagePreview = () => {setPostImagePreview(null)};
   const handleOpenPost = (postId) => {setOpenPostId(postId)};
@@ -128,6 +151,11 @@ function App() {
   const handleDescriptionChange = (e) => {setPostDescription(e.target.value);};
 
   const toggleLike = (postId) => {
+    if (!currentUserId) {
+      openLogin();
+      return;
+    }
+
     const updatedPosts = posts.map((post) => {
       if (postId !== post.id) {                 //check if this is the interacted post
         return post;
@@ -182,7 +210,7 @@ function App() {
     else {
       const newPost = {
         id: crypto.randomUUID(),
-        authorId: "user-1",
+        authorId: currentUserId,
         title: title,
         description: description,
         imageSrc: postImagePreview,
@@ -214,6 +242,10 @@ function App() {
   }
 
   const handleAddComment = (postId, commentContent) => {
+    if (!currentUserId) {
+      openLogin();
+      return;
+    }
     const newComment = {
       id: crypto.randomUUID(),
       userId: currentUserId,
@@ -229,10 +261,21 @@ function App() {
 
   const openLogin = () => setIsLoginOpen(true);
   const closeLogin = () => setIsLoginOpen(false);
+
   const handleLoginSubmit = (payload) => {
-    console.log('Login payload:', payload);
+    if (payload.mode === "signup") {
+      const newUser = {
+        id: crypto.randomUUID(),
+        name: payload.username,
+        profilePic: "images/default_pic.jpg",
+        userHandle: payload.userhandle
+      }
+      setUsers((prevUsers) => [newUser, ...prevUsers]);
+      setCurrentUserId(newUser.id);
+    }
     setIsLoginOpen(false);
   }
+
   // ==================================== COMMS =====================================
   return (
     <div className="body-container">
@@ -245,6 +288,8 @@ function App() {
         onHomeClick={showHome}
         onLikedClick={showLike}
         onNotificationsClick={showNotifications}
+        users={users}
+        profileUserId={currentUserId}
       />
 
       {isLoginOpen && (
