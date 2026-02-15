@@ -16,7 +16,8 @@ function Feed({currentView,
                comments,
                onAddComment,
                searchQuery,
-               onSearchChange
+               onSearchChange,
+               onDeleteComment
             }) 
 {
   let profileHeader = null;
@@ -228,6 +229,15 @@ function Feed({currentView,
                           <button className="interaction-button">
                             <img src={"icons/star.png"} className="interaction-icon" alt="Favorite" />
                           </button>
+                          {comment.userId === userId && (
+                            <button
+                            className="comment-delete-btn"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onDeleteComment(comment.id);
+                            }}
+                          >X</button>
+                          )}
                         </div>
                       </div>
                     </div>

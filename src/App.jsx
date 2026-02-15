@@ -218,6 +218,11 @@ function App() {
     }
     setComments((prevComments) => [...prevComments, newComment]);
   }
+
+  const handleDeleteComment = (commentId) => {
+    setComments((prevComments) => prevComments.filter((comment) => comment.id !== commentId))
+  }
+
   const openLogin = () => setIsLoginOpen(true);
   const closeLogin = () => setIsLoginOpen(false);
   const handleLoginSubmit = (payload) => {
@@ -263,6 +268,7 @@ function App() {
         onAddComment={handleAddComment}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
+        onDeleteComment={handleDeleteComment}
       />
 
       <Sidebar 
