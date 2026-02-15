@@ -20,7 +20,9 @@ function Feed({currentView,
             }) 
 {
   let profileHeader = null;
-  const shouldShowPosts = currentView === "home" || currentView === "profile";
+  let notifications = null;
+
+  const shouldShowPosts = currentView === "home" || currentView === "profile" || currentView === "liked";
   const [newCommentText, setNewCommentText] = useState("");
 
   const handlePostComment = (postId) => {
@@ -58,6 +60,67 @@ function Feed({currentView,
             </ul>
             <button className="edit-profile-btn" onClick={onEditClick}>Edit Profile</button>
           </div>
+        </div>
+      </div>
+    );
+  }
+  if (currentView === 'notifications') {
+    notifications = ( 
+      <div className="notification-container">
+        <div className="notification-header">
+          <p className="header1">Notifications</p>
+        </div>
+        <div className="notification-filters">
+          <button>All</button>
+          <button>Mentions</button>
+          <button>Priority</button>
+        </div>
+        <div className="notification-inbox">
+          <div className="notification-message">
+            <img src="icons/favourite-red.png" className="notification-message-icon"></img>
+            <div className="notification-text-content">
+              <p>Somebody liked your post</p>
+              <p className="post-dot-dark">·</p>
+              <p className="post-time">just now</p>
+            </div>
+            <img src="images/castletower.png" className="notification-message-postimage"></img>
+          </div>
+          <div className="notification-message">
+            <img src="icons/star.png" className="notification-message-icon"></img>
+            <div className="notification-text-content">
+              <p>Somebody favourited your post</p>
+              <p className="post-dot-dark">·</p>
+              <p className="post-time">2 hours ago</p>
+            </div>
+            <img src="images/castletower.png" className="notification-message-postimage"></img>
+          </div>
+          <div className="notification-message">
+            <img src="icons/favourite-red.png" className="notification-message-icon"></img>
+            <div className="notification-text-content">
+              <p>Somebody liked your post</p>
+              <p className="post-dot-dark">·</p>
+              <p className="post-time">14 hours ago</p>
+            </div>
+            <img src="images/farmhouse.png" className="notification-message-postimage"></img>
+          </div>
+          <div className="notification-message">
+            <img src="icons/chat-box.png" className="notification-message-icon"></img>
+            <div className="notification-text-content">
+              <p>Somebody commented on your post</p>
+              <p className="post-dot-dark">·</p>
+              <p className="post-time">22 hours ago</p>
+            </div>
+            <img src="images/farmhouse.png" className="notification-message-postimage"></img>
+          </div>
+          <div className="notification-message">
+            <img src="icons/email.png" className="notification-message-icon"></img>
+            <div className="notification-text-content">
+              <p>Somebody messaged you</p>
+              <p className="post-dot-dark">·</p>
+              <p className="post-time">1 day ago</p>
+            </div>
+          </div>
+          
         </div>
       </div>
     );
@@ -127,9 +190,9 @@ function Feed({currentView,
               <div className="dropdown dropdown-up">
                 <button className="dropdown-button" id="save-button">Save</button>
                 <div className="dropdown-content">
-                  <a href="#">Isometrics</a>
-                  <a href="#">Top Downs</a>
-                  <a href="#">Interiors</a>
+                  <button>Isometrics</button>
+                  <button>Top Downs</button>
+                  <button>Interiors</button>
                 </div>
               </div>
             </div>
@@ -138,7 +201,7 @@ function Feed({currentView,
               <div className="comment-container">
                 <div className="comment-composer">
                   <input className="comment-textbox" type="text" value={newCommentText} onChange={(e) => setNewCommentText(e.target.value)} placeholder="Write a comment..."></input>
-                  <button class="button" onClick={() => handlePostComment(post.id)}>Post</button>
+                  <button className="button" onClick={() => handlePostComment(post.id)}>Post</button>
                 </div>
 
                 {postComments.map((comment) => {
@@ -175,6 +238,7 @@ function Feed({currentView,
         )})
       ) : null
       }
+      {notifications}
     </div>
   );
 }
