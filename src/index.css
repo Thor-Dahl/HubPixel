@@ -262,6 +262,12 @@ input, textarea {
     font-weight: 500;
     font-size: 22px;
     margin: 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.post-name:hover {
+    font-weight: 700;
 }
 
 .post-username, .post-dot, .post-time {

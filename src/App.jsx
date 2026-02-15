@@ -75,6 +75,7 @@ function App() {
   // ==================================== STATES ====================================
   const [currentUserId, setCurrentUserId] = useState("user-1");
   //Nav View states
+  const [profileUserId, setProfileUserId] = useState(currentUserId);
   const [activeView, setActiveView] = useState('home');
   const [isProfileEditOpen, setIsProfileEditOpen] = useState(false);
   const [isPostComposerOpen, setIsPostComposerOpen] = useState(false);
@@ -88,17 +89,16 @@ function App() {
   const [bioText, setBioText] = useState("");
   //Post information
   const [posts, setPosts] = useState(samplePosts);
-  const userPosts = posts.filter((post) => post.authorId === currentUserId);
-
   const [comments, setComments] = useState(sampleComments);
   const [openPostId, setOpenPostId] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   let activePosts = posts; 
+  const profilePosts = posts.filter((post) => post.authorId === profileUserId);
   const likedPosts = activePosts.filter((post) => post.likedBy.includes(currentUserId));
 
-  if (activeView === "profile") activePosts = userPosts;
+  if (activeView === "profile") activePosts = profilePosts;
   if (activeView === "liked") activePosts = likedPosts;
   //search query
   const filteredPosts = activePosts.filter((post) => {
@@ -110,7 +110,11 @@ function App() {
     setActiveView('home');
     setIsProfileEditOpen(false);
   };
-  const showProfile = () => { setActiveView('profile'); };
+  const showMyProfile = () => {
+    setProfileUserId(currentUserId);
+    setActiveView('profile');
+  };
+  const showUserProfile = (userId) => { setProfileUserId(userId); setActiveView('profile'); };
   const showLike = () => { setActiveView('liked'); };
   const showNotifications = () => setActiveView('notifications');
   const openProfileEdit = () => { setIsProfileEditOpen(true);};
@@ -237,7 +241,7 @@ function App() {
 
       <Navbar 
         onOpenPostComposer={openPostComposer} 
-        onProfileClick={showProfile}
+        onProfileClick={showMyProfile}
         onHomeClick={showHome}
         onLikedClick={showLike}
         onNotificationsClick={showNotifications}
@@ -269,6 +273,8 @@ function App() {
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         onDeleteComment={handleDeleteComment}
+        onProfileClick={showUserProfile}
+        profileUserId={profileUserId}
       />
 
       <Sidebar 

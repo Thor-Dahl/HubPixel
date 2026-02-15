@@ -17,7 +17,9 @@ function Feed({currentView,
                onAddComment,
                searchQuery,
                onSearchChange,
-               onDeleteComment
+               onDeleteComment,
+               onProfileClick,
+               profileUserId
             }) 
 {
   let profileHeader = null;
@@ -25,6 +27,7 @@ function Feed({currentView,
 
   const shouldShowPosts = currentView === "home" || currentView === "profile" || currentView === "liked";
   const [newCommentText, setNewCommentText] = useState("");
+  const viewedUser = users.find((user) => user.id === profileUserId);
 
   const handlePostComment = (postId) => {
     const trimmedComment = newCommentText.trim();
@@ -40,11 +43,11 @@ function Feed({currentView,
         <div className="profile-container">
         <div className="profile-header">
           <div className="profile-left">
-            <img src="images/Festive-Bambi.png" className="profile-pic" alt="User" />
+            <img src={viewedUser.profilePic} className="profile-pic" alt="User" />
             <div className="profile-left-info">
               <div className="profile-handles">
-                <p className="profile-name">{userName || "Username"}</p>
-                <p className="profile-username">@userhandle</p>
+                <p className="profile-name">{viewedUser.name || "Username"}</p>
+                <p className="profile-username">{viewedUser.userHandle}</p>
               </div>
               <div className="profile-followers">
                 <p><span className="profile-followers-count">150</span> Followers</p>
@@ -146,7 +149,7 @@ function Feed({currentView,
             <div className="post-header">
               <img src={author.profilePic} className="post-profile-pic" alt="User" />
               <div className="post-user-info">
-                <p className="post-name">{author.name}</p>
+                <p className="post-name" onClick={(e) => {e.stopPropagation(); onProfileClick(author.id);}}>{author.name}</p>
                 <div className="post-subinfo">
                   <p className="post-username">{author.userHandle}</p>
                   <p className="post-dot">·</p>
