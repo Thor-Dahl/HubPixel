@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Navbar from './components/Navbar';
+import Login from './Login';
 import Sidebar from './components/Sidebar';
 import Feed from './Feed';
 import PostComposer from './components/PostComposer';
@@ -63,9 +64,9 @@ function App() {
   ]
 
   const sampleComments = [
-    {id: "comment-1", userId: "user-2", postId: "post-1", content: "test"},
-    {id: "comment-2", userId: "user-3", postId: "post-1", content: "test2"},
-    {id: "comment-3", userId: "user-4", postId: "post-1", content: "test3"},
+    {id: "comment-1", userId: "user-2", postId: "post-1", content: "Yo amazing work! What software do you use? I use aesprite but the UI feels clunky for me"},
+    {id: "comment-2", userId: "user-3", postId: "post-1", content: "I like the warm colour choices. The sword leaning on the brick wall seems really large though! I'm not sure even the mightiest knight can wield that lol"},
+    {id: "comment-3", userId: "user-4", postId: "post-1", content: "Bruh I struggle with Isometric pixel art, how did you do this?"},
     {id: "comment-4", userId: "user-7", postId: "post-2", content: "test4"},
     {id: "comment-7", userId: "user-8", postId: "post-2", content: "test7"},
     {id: "comment-8", userId: "user-9", postId: "post-3", content: "test8"},
@@ -92,8 +93,14 @@ function App() {
   const [comments, setComments] = useState(sampleComments);
   const [openPostId, setOpenPostId] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
 
-  let activePosts = posts; if (activeView === "profile") activePosts = userPosts;
+  let activePosts = posts; 
+  const likedPosts = activePosts.filter((post) => post.likedBy.includes(currentUserId));
+
+  if (activeView === "profile") activePosts = userPosts;
+  if (activeView === "liked") activePosts = likedPosts;
+  //search query
   const filteredPosts = activePosts.filter((post) => {
     return post.title.toLowerCase().includes(searchQuery.toLowerCase());
   })
@@ -104,11 +111,13 @@ function App() {
     setIsProfileEditOpen(false);
   };
   const showProfile = () => { setActiveView('profile'); };
+  const showLike = () => { setActiveView('liked'); };
+  const showNotifications = () => setActiveView('notifications');
   const openProfileEdit = () => { setIsProfileEditOpen(true);};
   const closeProfileEdit = () => { setIsProfileEditOpen(false);};
   const openPostComposer = () => {setIsPostComposerOpen(true);};
   const closePostComposer = () => {setIsPostComposerOpen(false);};
-  const clearImagePreview = () => setPostImagePreview(null);
+  const clearImagePreview = () => {setPostImagePreview(null)};
   const handleOpenPost = (postId) => {setOpenPostId(postId)};
   
   const handleTitleChange = (e) => {setPostTitle(e.target.value);};
@@ -209,15 +218,33 @@ function App() {
     }
     setComments((prevComments) => [...prevComments, newComment]);
   }
+  const openLogin = () => setIsLoginOpen(true);
+  const closeLogin = () => setIsLoginOpen(false);
+  const handleLoginSubmit = (payload) => {
+    console.log('Login payload:', payload);
+    setIsLoginOpen(false);
+  }
   // ==================================== COMMS =====================================
   return (
     <div className="body-container">
+
+    <button className="button login-button" onClick={openLogin}>Login</button>
 
       <Navbar 
         onOpenPostComposer={openPostComposer} 
         onProfileClick={showProfile}
         onHomeClick={showHome}
+        onLikedClick={showLike}
+        onNotificationsClick={showNotifications}
       />
+
+      {isLoginOpen && (
+        <div className={`modal-overlay show`} onClick={closeLogin}>
+          <div className="post-modal show" onClick={(e) => e.stopPropagation()}>
+            <Login onSubmit={handleLoginSubmit} />
+          </div>
+        </div>
+      )}
 
       <Feed 
         currentView={activeView}
