@@ -1,4 +1,4 @@
-export default function Navbar({ onOpenPostComposer, onProfileClick, onHomeClick, onLikedClick }) {
+export default function Navbar({ onOpenPostComposer, onProfileClick, onHomeClick, onLikedClick, onNotificationsClick }) {
   return (
     <div className="nav-container">
       <div className="nav-personal">
@@ -6,7 +6,7 @@ export default function Navbar({ onOpenPostComposer, onProfileClick, onHomeClick
           <img src="icons/home.png" className="nav-icon" alt="Home" />
           <p className="nav-text"> Home</p>
         </button>
-        <button className="nav-button">
+        <button className="nav-button" onClick={onNotificationsClick}>
             <img src="icons/bell.png" className="nav-icon" />
             <p className="nav-text"> Notifications</p>
         </button>

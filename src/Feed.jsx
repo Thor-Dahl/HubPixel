@@ -132,6 +132,7 @@ function Feed({currentView,
 
 
       {profileHeader}
+      {notifications}
       
       {shouldShowPosts ? (posts.map((post) => {
         const author = users.find((user) => user.id === post.authorId);
@@ -238,7 +239,6 @@ function Feed({currentView,
         )})
       ) : null
       }
-      {notifications}
     </div>
   );
 }

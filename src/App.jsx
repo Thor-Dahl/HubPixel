@@ -75,7 +75,7 @@ function App() {
   // ==================================== STATES ====================================
   const [currentUserId, setCurrentUserId] = useState("user-1");
   //Nav View states
-  const [activeView, setActiveView] = useState('notifications');
+  const [activeView, setActiveView] = useState('home');
   const [isProfileEditOpen, setIsProfileEditOpen] = useState(false);
   const [isPostComposerOpen, setIsPostComposerOpen] = useState(false);
   //Compose Post states
@@ -112,6 +112,7 @@ function App() {
   };
   const showProfile = () => { setActiveView('profile'); };
   const showLike = () => { setActiveView('liked'); };
+  const showNotifications = () => setActiveView('notifications');
   const openProfileEdit = () => { setIsProfileEditOpen(true);};
   const closeProfileEdit = () => { setIsProfileEditOpen(false);};
   const openPostComposer = () => {setIsPostComposerOpen(true);};
@@ -234,6 +235,7 @@ function App() {
         onProfileClick={showProfile}
         onHomeClick={showHome}
         onLikedClick={showLike}
+        onNotificationsClick={showNotifications}
       />
 
       {isLoginOpen && (
